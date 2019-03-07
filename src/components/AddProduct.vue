@@ -1,7 +1,10 @@
 <template>
   <div class="main container">
     <h1 class="title">Добавление продуктов</h1>
-    <form action="#">
+    <form
+      action="#"
+      v-on:submit.prevent="onSubmit"
+    >
       <div class="field is-horizontal">
         <div class="field-label">
           <label for="product_category">
@@ -10,7 +13,8 @@
         </div>
         <div class="field-body">
           <div class="select is-success">
-            <select
+            <b-select
+              required
               id="product_category"
               v-model="selected_category"
             >
@@ -19,7 +23,7 @@
                 :key="index"
                 :value="option.value"
               >{{option.text}}</option>
-            </select>
+            </b-select>
 
           </div>
         </div>
@@ -61,10 +65,15 @@
           </label>
         </div>
         <div class="field-body">
-          <input
-            type="number"
-            class=""
-          >
+          <vue-numeric
+            class="input is-success sameWidth"
+            v-model="product_price"
+            currency="Cом"
+            :minus="false"
+            separator="space"
+            currency-symbol-position='suffix'
+            placeholder="Введите только цифры"
+          ></vue-numeric>
         </div>
       </div>
       <div class="field is-horizontal">
@@ -89,38 +98,48 @@
         <div class="field-body">
           <div class="field is-narrow">
             <div class="control">
-              <label class="radio">
-                <input
-                  type="radio"
-                  name="halalState"
-                  class="radio-text"
-                  @click="halalState=true"
+              <div class="field">
+                <b-switch
+                  v-model="halalState"
+                  type="is-success"
+                  size="is-medium"
                 >
-                Да
-              </label>
-              <label class="radio">
-                <input
-                  type="radio"
-                  name="halalState"
-                  class="radio-text"
-                  @click="halalState=false"
-                >
-                Нет
-              </label>
+                  <p v-if="halalState===true">Да</p>
+                  <p v-else>Нет</p>
+                </b-switch>
+
+              </div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label"></div>
+        <div class="field-body">
+          <input
+            class="button is-success is-rounded"
+            type="submit"
+            value="Submit input"
+          ></div>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import VueNumeric from 'vue-numeric'
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
+
+Vue.use(Buefy)
+
 export default {
   data () {
     return {
+      product_price: '',
       selected_category: '',
-      halalState: 'false',
+      halalState: false,
       product_category: [
         { text: 'Пиццы', value: 'pizzas' },
         { text: 'Комбо', value: 'combos' },
@@ -129,6 +148,7 @@ export default {
       ],
     }
   },
+  components: { VueNumeric }
 }
 </script>
 
