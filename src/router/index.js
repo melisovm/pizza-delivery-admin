@@ -4,6 +4,7 @@ import MainPage from '../components/MainPage'
 import AddProduct from '../components/AddProduct'
 import AddPromotion from '../components/AddPromotion'
 import AllProducts from '../components/AllProducts'
+import AllPromotions from '../components/AllPromotions'
 
 Vue.use(Router);
 export default new Router({
@@ -24,5 +25,9 @@ export default new Router({
     path: '/all-products',
     name: 'AllProducts',
     component: AllProducts
+  }, {
+    path: '/all-promotions',
+    name: 'AllPromotions',
+    component: AllPromotions
   }]
 });

@@ -3,7 +3,7 @@
     <h1 class="title">Добавление продуктов</h1>
     <form
       action="#"
-      v-on:submit.prevent="onSubmit"
+      v-on:submit.prevent="addProduct"
     >
       <div class="field is-horizontal">
         <div class="field-label">
@@ -30,7 +30,7 @@
       </div>
       <div class="field is-horizontal">
         <div class="field-label">
-          <label for="product_name">
+          <label>
             <p class="subtitle">Введите наименование товара</p>
           </label>
         </div>
@@ -39,7 +39,7 @@
             type="text"
             class="input is-success sameWidth"
             placeholder="Маргарита"
-            id="product_name"
+            v-model="product_name"
           >
         </div>
       </div>
@@ -52,7 +52,7 @@
         <div class="field-body">
           <textarea
             name="product_description"
-            id="product_description"
+            v-model="product_description"
             rows="5"
             class="is-success textarea is-inline sameWidth"
           ></textarea>
@@ -86,7 +86,7 @@
           <input
             type="text"
             class="input is-success sameWidth"
-            id="product_image"
+            v-model="product_image"
           >
         </div>
       </div>
@@ -120,6 +120,7 @@
             class="button is-success is-rounded"
             type="submit"
             value="Submit input"
+            @click="addProduct"
           ></div>
       </div>
     </form>
@@ -140,6 +141,9 @@ export default {
       product_price: '',
       selected_category: '',
       halalState: false,
+      product_name: '',
+      product_description: '',
+      product_image: '',
       product_category: [
         { text: 'Пиццы', value: 'pizzas' },
         { text: 'Комбо', value: 'combos' },
@@ -148,7 +152,13 @@ export default {
       ],
     }
   },
-  components: { VueNumeric }
+  components: { VueNumeric },
+  methods: {
+    addProduct () {
+      this.$store.dispatch('addProduct', this.product_name, this.product_category[0].value, this.product_description, this.product_price, this.product_image, this.halalState)
+      console.log(this.product_category[0].value);
+    }
+  }
 }
 </script>
 

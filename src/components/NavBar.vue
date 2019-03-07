@@ -26,6 +26,10 @@
           to="all-products"
           class="button is-success is-rounded"
         > Список всех продуктов</router-link>
+        <router-link
+          to="all-promotions"
+          class="button is-success is-rounded"
+        > Список всех акций/новостей</router-link>
       </div>
       <div class="navbar-end">
         <!-- Add smthg to the end -->
