@@ -14,7 +14,6 @@
         <div class="field-body">
           <div class="select is-success">
             <b-select
-              required
               id="product_category"
               v-model="selected_category"
             >
@@ -120,10 +119,15 @@
             class="button is-success is-rounded"
             type="submit"
             value="Submit input"
-            @click="addProduct"
           ></div>
       </div>
     </form>
+    <button
+      @click="checkButton()"
+      class="button"
+    >
+      check
+    </button>
   </div>
 </template>
 
@@ -132,6 +136,7 @@ import Vue from 'vue'
 import VueNumeric from 'vue-numeric'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
+import { mapGetters } from 'vuex';
 
 Vue.use(Buefy)
 
@@ -153,10 +158,25 @@ export default {
     }
   },
   components: { VueNumeric },
+  computed: { ...mapGetters(['getPizzas', 'getCombos', 'getProducts']) },
   methods: {
+    checkButton () {
+      console.log(this.getProducts);
+      console.log('from button', this.halalState, 'from state', this.getProducts[0].halalStatus);
+    },
     addProduct () {
-      this.$store.dispatch('addProduct', this.product_name, this.product_category[0].value, this.product_description, this.product_price, this.product_image, this.halalState)
-      console.log(this.product_category[0].value);
+      const product = {
+        name: this.product_name,
+        description: this.product_description,
+        price: this.product_price,
+        halalStatus: this.halalState,
+        category: this.selected_category,
+        image: this.product_image,
+        date: Date.now(),
+        id: ''
+      }
+      this.$store.dispatch('addProduct', product);
+
     }
   }
 }
@@ -165,7 +185,5 @@ export default {
 <style scoped>
 .sameWidth {
   width: 50rem;
-}
-input[type="number"] {
 }
 </style>
