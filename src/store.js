@@ -12,6 +12,7 @@ export default new Vuex.Store({
         price: 625,
         image: "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/fade8c33-27e4-4c84-acd2-4a0138f7baa1.jpg",
         halalStatus: true,
+        id: 1
       },
       {
         category: 'combos',
@@ -20,6 +21,7 @@ export default new Vuex.Store({
         price: 625,
         image: "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/fade8c33-27e4-4c84-acd2-4a0138f7baa1.jpg",
         halalStatus: true,
+        id: 2
       },
       {
         category: 'drinks',
@@ -27,7 +29,8 @@ export default new Vuex.Store({
         description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
         price: 625,
         image: "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/fade8c33-27e4-4c84-acd2-4a0138f7baa1.jpg",
-        halalStatus: true,
+        halalStatus: false,
+        id: 3
       },
       {
         category: 'desserts',
@@ -36,6 +39,7 @@ export default new Vuex.Store({
         price: 625,
         image: "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/fade8c33-27e4-4c84-acd2-4a0138f7baa1.jpg",
         halalStatus: true,
+        id: 4
       },
     ],
     newProduct: {},
@@ -66,6 +70,13 @@ export default new Vuex.Store({
     ADD_PROMOTION: (state, payload) => {
       payload.id = state.promotions.length + 1;
       state.promotions.push(payload);
+    },
+    REMOVE_PRODUCT: (state, payload) => {
+      state.products.splice(state.products.indexOf(payload), 1)
+    },
+    EDIT_PRODUCT: (state, payload) => {
+      let id = payload.id;
+      state.products.find(element => element.id === id)
     }
   },
   actions: {
@@ -82,6 +93,11 @@ export default new Vuex.Store({
 
       commit("ADD_PRODUCT", payload);
 
+    },
+    deleteProduct({
+      commit
+    }, payload) {
+      commit("REMOVE_PRODUCT", payload);
     }
   }
 });

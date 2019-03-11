@@ -122,12 +122,6 @@
           ></div>
       </div>
     </form>
-    <button
-      @click="checkButton()"
-      class="button"
-    >
-      check
-    </button>
   </div>
 </template>
 
@@ -160,10 +154,7 @@ export default {
   components: { VueNumeric },
   computed: { ...mapGetters(['getPizzas', 'getCombos', 'getProducts']) },
   methods: {
-    checkButton () {
-      console.log(this.getProducts);
-      console.log('from button', this.halalState, 'from state', this.getProducts[0].halalStatus);
-    },
+
     addProduct () {
       const product = {
         name: this.product_name,

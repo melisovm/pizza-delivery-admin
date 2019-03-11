@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import listOfProducts from './ListOfProducts';
 
 export default {
@@ -23,7 +23,8 @@ export default {
   },
   components: {
     listOfProducts
-  }
+  },
+
 }
 </script>
 
