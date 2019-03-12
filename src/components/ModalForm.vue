@@ -112,12 +112,12 @@
         <div class="field is-horizontal">
           <div class="field-label"></div>
           <div class="field-body">
-            <!-- <figure class="image is-128x128">
+            <figure class="image is-128x128">
               <img
                 :src="editedImage"
                 alt=""
               >
-            </figure> -->
+            </figure>
           </div>
         </div>
 
@@ -161,7 +161,7 @@ export default {
   }, components: {
     VueNumeric
   },
-  props: ['productDetails', 'status'],
+  props: ['productDetails'],
   methods: {
     saveData () {
       const editedProduct = {
@@ -173,6 +173,8 @@ export default {
         halalStatus: this.editedStatus,
         id: this.productDetails.id
       }
+      this.$store.dispatch('editProduct', editedProduct);
+      // console.log('saveData', editedProduct);
     }
   },
 }

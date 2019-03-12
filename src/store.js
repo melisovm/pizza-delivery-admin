@@ -15,7 +15,7 @@ export default new Vuex.Store({
         id: 1
       },
       {
-        category: 'combos',
+        category: 'pizzas',
         name: "Комбо1",
         description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
         price: 625,
@@ -24,7 +24,7 @@ export default new Vuex.Store({
         id: 2
       },
       {
-        category: 'drinks',
+        category: 'pizzas',
         name: "напиток1",
         description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
         price: 625,
@@ -33,7 +33,7 @@ export default new Vuex.Store({
         id: 3
       },
       {
-        category: 'desserts',
+        category: 'pizzas',
         name: "дессерт1",
         description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
         price: 625,
@@ -60,8 +60,6 @@ export default new Vuex.Store({
   mutations: {
     ADD_PRODUCT: (state, payload) => {
       payload.id = state.products.length + 1;
-      console.log("from mutation", payload);
-      console.log('test', payload.halalStatus);
       if (payload.halalStatus === -1) {
         payload.halalStatus === false;
       }
@@ -76,7 +74,14 @@ export default new Vuex.Store({
     },
     EDIT_PRODUCT: (state, payload) => {
       let id = payload.id;
-      state.products.find(element => element.id === id)
+      let editableProduct = state.products.find(element => element.id === id);
+      editableProduct.name = payload.name;
+      editableProduct.category = payload.category;
+      editableProduct.description = payload.description;
+      editableProduct.price = payload.price;
+      editableProduct.image = payload.image;
+      editableProduct.halalStatus = payload.halalStatus;
+      console.log('name', editableProduct);
     }
   },
   actions: {
@@ -89,10 +94,12 @@ export default new Vuex.Store({
     addProduct({
       commit
     }, payload) {
-      // console.log("from action", payload);
-
       commit("ADD_PRODUCT", payload);
-
+    },
+    editProduct({
+      commit
+    }, payload) {
+      commit("EDIT_PRODUCT", payload);
     },
     deleteProduct({
       commit

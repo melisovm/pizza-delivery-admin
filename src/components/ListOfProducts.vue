@@ -24,6 +24,7 @@
               class="button is-danger "
               @click="remove(product)"
             >Удалить</button>
+
             <button
               class="button is-primary "
               @click="isModalActive = true"
