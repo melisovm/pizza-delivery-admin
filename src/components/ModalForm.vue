@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @keyup.enter="saveData();$parent.close()">
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
@@ -85,7 +85,7 @@
                     type="is-success"
                     size="is-medium"
                   >
-                    <p v-if="productDetails.halalStatus===true">Да</p>
+                    <p v-if="editedStatus===true">Да</p>
                     <p v-else>Нет</p>
                   </b-switch>
 
@@ -131,8 +131,12 @@
         <button
           type="submit"
           class="button is-success"
-          @click="saveData()"
+          @click="saveData();$parent.close()"
         >Сохранить измениния</button>
+        <button
+          class="button"
+          @click="$parent.close()"
+        >Отмена</button>
       </footer>
     </div>
   </div>
@@ -174,7 +178,6 @@ export default {
         id: this.productDetails.id
       }
       this.$store.dispatch('editProduct', editedProduct);
-      // console.log('saveData', editedProduct);
     }
   },
 }

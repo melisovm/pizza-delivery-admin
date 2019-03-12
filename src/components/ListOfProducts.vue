@@ -21,25 +21,29 @@
           </div>
           <div class="navbar-end navbar-item">
             <button
-              class="button is-danger "
-              @click="remove(product)"
+              class="button is-danger"
+              @click="confirmCustomDelete(product)"
             >Удалить</button>
 
             <button
               class="button is-primary "
-              @click="isModalActive = true"
+              @click="openModal(product)"
             >Изменить</button>
           </div>
         </div>
       </div>
-      <b-modal
-        :active.sync="isModalActive"
-        has-modal-card
-      >
-        <modal-form :productDetails="product"></modal-form>
-      </b-modal>
     </div>
-
+    <b-modal
+      :active.sync="isModalActive"
+      has-modal-card
+    >
+      <modal-form :productDetails="item"></modal-form>
+    </b-modal>
+    <b-modal
+      :active.sync="isDeleteModalActive"
+      has-modal-card
+    >
+    </b-modal>
   </div>
 </template>
 <script>
@@ -50,14 +54,43 @@ export default {
   components: { ModalForm },
   data () {
     return {
-      isModalActive: false
+      isModalActive: false,
+      isDeleteModalActive: false,
+      item: {}
     }
   },
   props: ['products'],
   methods: {
+    openModal (payload) {
+      this.item = payload;
+      this.isModalActive = true;
+    },
+    showProduct (payload) {
+      console.log(payload);
+    },
     ...mapActions(['deleteProduct']),
-    remove (index) {
-      this.deleteProduct(index);
+    remove (payload) {
+      this.deleteProduct(payload);
+    },
+    confirmCustomDelete (payload) {
+      this.item = payload;
+      this.$dialog.confirm({
+        title: 'Удаление продукта',
+        message: 'Вы уверены что хотите  <b>удалить</b> этот продукт? После Вы не можете восстановить данные',
+        confirmText: 'Удалить продукт',
+        cancelText: 'Отмена',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => {
+          this.$toast.open({
+            message: 'Продукт удалён! ',
+            duration: 3000,
+            position: 'is-bottom-left',
+            type: 'is-dark'
+          });
+          this.remove(payload);
+        }
+      })
     }
   }
 }

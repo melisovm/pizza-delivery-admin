@@ -137,6 +137,7 @@ Vue.use(Buefy)
 export default {
   data () {
     return {
+      addStatus: null,
       product_price: '',
       selected_category: '',
       halalState: false,
@@ -156,18 +157,19 @@ export default {
   methods: {
 
     addProduct () {
-      const product = {
-        name: this.product_name,
-        description: this.product_description,
-        price: this.product_price,
-        halalStatus: this.halalState,
-        category: this.selected_category,
-        image: this.product_image,
-        date: Date.now(),
-        id: ''
+      if (condition) {
+        const product = {
+          name: this.product_name,
+          description: this.product_description,
+          price: this.product_price,
+          halalStatus: this.halalState,
+          category: this.selected_category,
+          image: this.product_image,
+          date: Date.now(),
+          id: ''
+        }
+        this.$store.dispatch('addProduct', product);
       }
-      this.$store.dispatch('addProduct', product);
-
     }
   }
 }

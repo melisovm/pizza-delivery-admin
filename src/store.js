@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     products: [{
-        category: 'pizzas',
+        category: 'combos',
         name: "Пицца ",
         description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
         price: 625,
@@ -15,7 +15,7 @@ export default new Vuex.Store({
         id: 1
       },
       {
-        category: 'pizzas',
+        category: 'combos',
         name: "Комбо1",
         description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
         price: 625,
@@ -24,7 +24,7 @@ export default new Vuex.Store({
         id: 2
       },
       {
-        category: 'pizzas',
+        category: 'combos',
         name: "напиток1",
         description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
         price: 625,
@@ -33,7 +33,7 @@ export default new Vuex.Store({
         id: 3
       },
       {
-        category: 'pizzas',
+        category: 'combos',
         name: "дессерт1",
         description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
         price: 625,
