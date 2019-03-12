@@ -1,12 +1,23 @@
 <template>
-  <div class="container">
-    <h1 class="title">All Promotions</h1>
-  </div>
+  <list-of-promotions :promotions="getPromotions"></list-of-promotions>
 </template>
 
 <script>
-export default {
+import ListOfPromotions from './ListOfPromotions'
+import { mapGetters } from 'vuex';
 
+export default {
+  data () {
+    return {
+
+    }
+  },
+  components: {
+    ListOfPromotions
+  },
+  computed: {
+    ...mapGetters(['getPromotions'])
+  }
 }
 </script>
 

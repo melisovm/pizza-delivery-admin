@@ -7,12 +7,13 @@ import AllProducts from '../components/AllProducts'
 import AllPromotions from '../components/AllPromotions'
 
 Vue.use(Router);
+
 export default new Router({
   mode: 'history',
   routes: [{
     path: '/',
     name: 'MainPage',
-    component: MainPage
+    component: MainPage,
   }, {
     path: '/product-add',
     name: 'AddProduct',

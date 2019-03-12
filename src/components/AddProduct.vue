@@ -5,8 +5,10 @@
       action="#"
       v-on:submit.prevent="addProduct"
     >
+
       <div class="field is-horizontal">
         <div class="field-label">
+
           <label for="product_category">
             <p class="subtitle"> Категория</p>
           </label>
@@ -16,6 +18,7 @@
             <b-select
               id="product_category"
               v-model="selected_category"
+              required
             >
               <option
                 v-for="(option,index) in product_category"
@@ -35,6 +38,7 @@
         </div>
         <div class="field-body">
           <input
+            required
             type="text"
             class="input is-success sameWidth"
             placeholder="Маргарита"
@@ -50,10 +54,12 @@
         </div>
         <div class="field-body">
           <textarea
+            required
             name="product_description"
             v-model="product_description"
             rows="5"
-            class="is-success textarea is-inline sameWidth"
+            class="is-success input is-inline sameWidth"
+            style="height:10rem"
           ></textarea>
         </div>
       </div>
@@ -65,13 +71,13 @@
         </div>
         <div class="field-body">
           <vue-numeric
+            required
             class="input is-success sameWidth"
             v-model="product_price"
             currency="Cом"
             :minus="false"
             separator="space"
             currency-symbol-position='suffix'
-            placeholder="Введите только цифры"
           ></vue-numeric>
         </div>
       </div>
@@ -83,6 +89,7 @@
         </div>
         <div class="field-body">
           <input
+            required
             type="text"
             class="input is-success sameWidth"
             v-model="product_image"
@@ -99,6 +106,7 @@
             <div class="control">
               <div class="field">
                 <b-switch
+                  required
                   v-model="halalState"
                   type="is-success"
                   size="is-medium"
@@ -118,7 +126,8 @@
           <input
             class="button is-success is-rounded"
             type="submit"
-            value="Submit input"
+            value="Добавить"
+            :disabled="(addStatus === 'SENDING')"
           ></div>
       </div>
     </form>
@@ -157,19 +166,29 @@ export default {
   methods: {
 
     addProduct () {
-      if (condition) {
-        const product = {
-          name: this.product_name,
-          description: this.product_description,
-          price: this.product_price,
-          halalStatus: this.halalState,
-          category: this.selected_category,
-          image: this.product_image,
-          date: Date.now(),
-          id: ''
-        }
-        this.$store.dispatch('addProduct', product);
+
+      const product = {
+        name: this.product_name,
+        description: this.product_description,
+        price: this.product_price,
+        halalStatus: this.halalState,
+        category: this.selected_category,
+        image: this.product_image,
+        date: Date.now(),
+        id: ''
       }
+      this.$store.dispatch('addProduct', product);
+      this.addStatus = 'SENDING';
+      setTimeout(() => {
+        this.addStatus = 'OK';
+        this.$toast.open({
+          message: ' Продукт добавлен ',
+          duration: 3000,
+          position: 'is-bottom-right',
+          type: 'is-primary'
+        })
+        console.log(product);
+      }, 1500)
     }
   }
 }

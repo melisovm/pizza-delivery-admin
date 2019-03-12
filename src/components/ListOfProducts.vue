@@ -10,10 +10,7 @@
         <div class="box navbar">
           <div class="navbar-brand">
             <figure class="image is-64x64">
-              <img
-                :src="product.image"
-                alt=""
-              >
+              <img :src="product.image">
             </figure>
           </div>
           <div class="navbar-item">
@@ -22,7 +19,7 @@
           <div class="navbar-end navbar-item">
             <button
               class="button is-danger"
-              @click="confirmCustomDelete(product)"
+              @click="confirmDelete(product)"
             >Удалить</button>
 
             <button
@@ -39,11 +36,6 @@
     >
       <modal-form :productDetails="item"></modal-form>
     </b-modal>
-    <b-modal
-      :active.sync="isDeleteModalActive"
-      has-modal-card
-    >
-    </b-modal>
   </div>
 </template>
 <script>
@@ -55,7 +47,6 @@ export default {
   data () {
     return {
       isModalActive: false,
-      isDeleteModalActive: false,
       item: {}
     }
   },
@@ -69,14 +60,11 @@ export default {
       console.log(payload);
     },
     ...mapActions(['deleteProduct']),
-    remove (payload) {
-      this.deleteProduct(payload);
-    },
-    confirmCustomDelete (payload) {
+    confirmDelete (payload) {
       this.item = payload;
       this.$dialog.confirm({
         title: 'Удаление продукта',
-        message: 'Вы уверены что хотите  <b>удалить</b> этот продукт? После Вы не можете восстановить данные',
+        message: 'Вы уверены что хотите <b>удалить</b> этот продукт? После Вы не можете восстановить данные',
         confirmText: 'Удалить продукт',
         cancelText: 'Отмена',
         type: 'is-danger',
@@ -88,7 +76,7 @@ export default {
             position: 'is-bottom-left',
             type: 'is-dark'
           });
-          this.remove(payload);
+          this.deleteProduct(payload);
         }
       })
     }

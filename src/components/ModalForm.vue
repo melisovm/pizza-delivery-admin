@@ -154,7 +154,6 @@ export default {
       editedPrice: this.productDetails.price,
       editedImage: this.productDetails.image,
       editedStatus: this.productDetails.halalStatus,
-
       product_category: [
         { text: 'Пиццы', value: 'pizzas' },
         { text: 'Комбо', value: 'combos' },
@@ -175,7 +174,8 @@ export default {
         price: this.editedPrice,
         image: this.editedImage,
         halalStatus: this.editedStatus,
-        id: this.productDetails.id
+        id: this.productDetails.id,
+        date: this.productDetails.date
       }
       this.$store.dispatch('editProduct', editedProduct);
     }

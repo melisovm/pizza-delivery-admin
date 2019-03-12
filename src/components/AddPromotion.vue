@@ -8,6 +8,7 @@
         </div>
         <div class="field-body">
           <input
+            required
             type="text"
             class="input is-success sameWidth"
             placeholder=""
@@ -21,10 +22,12 @@
         </div>
         <div class="field-body">
           <textarea
+            required
             v-model="promotion_description"
             cols="30"
             rows="10"
-            class="textarea is-success sameWidth"
+            class="input is-success sameWidth"
+            style="height:10rem"
           ></textarea>
         </div>
       </div>
@@ -70,6 +73,12 @@ export default {
         image: this.promotion_image
       }
       this.$store.dispatch('addPromotion', promotion);
+      this.$toast.open({
+        message: ' Акция добавлена ',
+        duration: 3000,
+        position: 'is-bottom-right',
+        type: 'is-primary'
+      })
     }
   }
 }
