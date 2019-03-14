@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     products: [{
-        category: 'combos',
+        category: 'pizzas',
         name: "Пицца ",
         description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
         price: 625,
@@ -26,7 +26,7 @@ export default new Vuex.Store({
         date: Date.now()
       },
       {
-        category: 'combos',
+        category: 'drinks',
         name: "напиток1",
         description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
         price: 625,
@@ -36,7 +36,7 @@ export default new Vuex.Store({
         date: Date.now()
       },
       {
-        category: 'combos',
+        category: 'desserts',
         name: "дессерт1",
         description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
         price: 625,

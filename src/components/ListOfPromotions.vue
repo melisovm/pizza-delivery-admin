@@ -73,7 +73,7 @@ export default {
         hasIcon: true,
         onConfirm: () => {
           this.$toast.open({
-            message: 'Акция удалена ',
+            message: `Акция "${payload.name}" удалена`,
             duration: 3000,
             position: 'is-bottom-left',
             type: 'is-danger'

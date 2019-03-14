@@ -71,7 +71,7 @@ export default {
         hasIcon: true,
         onConfirm: () => {
           this.$toast.open({
-            message: 'Продукт удалён! ',
+            message: `Продукт "${payload.name}" удалён! `,
             duration: 3000,
             position: 'is-bottom-left',
             type: 'is-dark'

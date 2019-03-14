@@ -30,6 +30,10 @@
           to="all-promotions"
           class="button is-success is-rounded"
         > Список всех акций/новостей</router-link>
+        <button
+          class="button"
+          @click="fetchData"
+        >Check</button>
       </div>
       <div class="navbar-end">
         <!-- Add smthg to the end -->
@@ -39,8 +43,16 @@
 </template>
 
 <script>
-export default {
+import axios from 'axios'
 
+export default {
+  methods: {
+    fetchData () {
+      axios.get('http://192.168.0.51:4000/product')
+        .then(response => console.log(response))
+        .catch(error => console.log('ERROR', error))
+    }
+  }
 }
 </script>
 
