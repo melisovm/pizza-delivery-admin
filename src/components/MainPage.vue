@@ -2,6 +2,7 @@
   <div class="main">
     <h3>main page</h3>
   </div>
+
 </template>
 
 <script>

@@ -98,14 +98,13 @@
         <div class="field is-horizontal">
           <div class="field-label">
             <label for="product_image">
-              <p class="subtitle"> Изменить ссылку для фотография</p>
+              <p class="subtitle"> Изменить фотографию</p>
             </label>
           </div>
           <div class="field-body">
             <input
-              type="text"
-              class="input is-success"
-              v-model="editedImage"
+              type="file"
+              ref="editedfile"
             >
           </div>
         </div>
@@ -120,12 +119,6 @@
             </figure>
           </div>
         </div>
-
-        <!-- <div class="field is-horizontal">
-        <div class="field-label"></div>
-        <div class="field-body"></div>
-        </div> -->
-
       </section>
       <footer class="modal-card-foot">
         <button
@@ -152,8 +145,8 @@ export default {
       editedCategory: this.productDetails.category,
       editedDescription: this.productDetails.description,
       editedPrice: this.productDetails.price,
-      editedImage: this.productDetails.image,
       editedStatus: this.productDetails.halalStatus,
+      editedImage: this.productDetails.image,
       product_category: [
         { text: 'Пиццы', value: 'pizzas' },
         { text: 'Комбо', value: 'combos' },
@@ -167,17 +160,21 @@ export default {
   props: ['productDetails'],
   methods: {
     saveData () {
+
       const editedProduct = {
         name: this.editedName,
         category: this.editedCategory,
         description: this.editedDescription,
         price: this.editedPrice,
-        image: this.editedImage,
         halalStatus: this.editedStatus,
-        id: this.productDetails.id,
-        date: this.productDetails.date
       }
-      this.$store.dispatch('editProduct', editedProduct);
+      let editedFormData = new FormData();
+      let editedFile = this.$refs.editedfile.files[0];
+      editedFormData.append('image', editedFile);
+      for (let key in editedProduct) {
+        editedFormData.append(key, editedProduct[key])
+      }
+      this.$store.dispatch('editProduct', editedFormData);
     }
   },
 }

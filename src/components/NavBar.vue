@@ -15,25 +15,17 @@
       </div>
       <div class="navbar-item">
         <router-link
-          to="/product-add"
+          to="products"
           class="button is-success is-rounded"
-        >Добавить продукт</router-link>
+        > Продукты</router-link>
         <router-link
-          to="promotion-add"
+          to="promotions"
           class="button is-success is-rounded"
-        > Добавить Акцию/Новость</router-link>
+        > Акцию/Новости</router-link>
         <router-link
-          to="all-products"
+          to="categories"
           class="button is-success is-rounded"
-        > Список всех продуктов</router-link>
-        <router-link
-          to="all-promotions"
-          class="button is-success is-rounded"
-        > Список всех акций/новостей</router-link>
-        <button
-          class="button"
-          @click="fetchData"
-        >Check</button>
+        > Категории</router-link>
       </div>
       <div class="navbar-end">
         <!-- Add smthg to the end -->
@@ -43,15 +35,10 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
   methods: {
-    fetchData () {
-      axios.get('http://192.168.0.51:4000/product')
-        .then(response => console.log(response))
-        .catch(error => console.log('ERROR', error))
-    }
+
   }
 }
 </script>

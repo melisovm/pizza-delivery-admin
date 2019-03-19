@@ -3,28 +3,26 @@
 
     <div
       class="columns is-full"
-      v-for="(product, index) in products"
+      v-for="(category, index) in categories"
       :key="index"
     >
       <div class="column">
         <div class="box navbar">
-          <div class="navbar-brand">
-            <figure class="image is-64x64">
-              <img :src="getImageUrl(product.image)">
-            </figure>
+          <div class="navbar-item">
+            <p class="subtitle ">Имя: {{category.name}}</p>
           </div>
           <div class="navbar-item">
-            <p class="subtitle ">{{product.name}}</p>
+            <p class="subtitle ">Код: {{category.code}}</p>
           </div>
           <div class="navbar-end navbar-item">
             <button
               class="button is-danger"
-              @click="confirmDelete(product)"
+              @click="confirmDelete(category)"
             >Удалить</button>
 
             <button
               class="button is-primary "
-              @click="openModal(product)"
+              @click="openModal(category)"
             >Изменить</button>
           </div>
         </div>
@@ -34,35 +32,28 @@
       :active.sync="isModalActive"
       has-modal-card
     >
-      <modal-form :productDetails="item"></modal-form>
+      <category-modal-form :categoryDetails="item"></category-modal-form>
     </b-modal>
   </div>
 </template>
 <script>
 import { mapGetters, mapActions, mapState } from 'vuex';
-import ModalForm from './ModalForm'
+import CategoryModalForm from './CategoryModalForm'
 
 export default {
-  components: { ModalForm },
-  props: ['products'],
+  components: { CategoryModalForm },
+  props: ['categories'],
   data () {
     return {
       isModalActive: false,
       item: {}
     }
   },
-  computed: {
-    ...mapState(['defaultUrl'])
-  },
-
   methods: {
-    ...mapActions(['deleteProduct']),
+    ...mapActions(['deleteCategory']),
     openModal (payload) {
       this.item = payload;
       this.isModalActive = true;
-    },
-    getImageUrl (ImageName) {
-      return this.defaultUrl + '/image/' + ImageName;
     },
     confirmDelete (payload) {
       this.item = payload;
@@ -75,19 +66,17 @@ export default {
         hasIcon: true,
         onConfirm: () => {
           this.$toast.open({
-            message: `Продукт "${payload.name}" удалён! `,
+            message: `Продукт <b>${payload.name}</b> удалён! `,
             duration: 3000,
             position: 'is-bottom-left',
             type: 'is-dark'
           });
-          this.deleteProduct(payload);
+          //delete function
+          this.deleteCategory(payload);
         }
       })
     }
-  },
-  mounted () {
-    this.$store.dispatch('fetchCategories')
-  },
+  }
 }
 </script>
 

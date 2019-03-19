@@ -1,52 +1,17 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from './plugins/axios'
+
+
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    products: [{
-        category: 'pizzas',
-        name: "Пицца ",
-        description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
-        price: 625,
-        image: "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/fade8c33-27e4-4c84-acd2-4a0138f7baa1.jpg",
-        halalStatus: true,
-        id: 1,
-        date: Date.now()
-      },
-      {
-        category: 'combos',
-        name: "Комбо1",
-        description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
-        price: 625,
-        image: "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/fade8c33-27e4-4c84-acd2-4a0138f7baa1.jpg",
-        halalStatus: true,
-        id: 2,
-        date: Date.now()
-      },
-      {
-        category: 'drinks',
-        name: "напиток1",
-        description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
-        price: 625,
-        image: "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/fade8c33-27e4-4c84-acd2-4a0138f7baa1.jpg",
-        halalStatus: false,
-        id: 3,
-        date: Date.now()
-      },
-      {
-        category: 'desserts',
-        name: "дессерт1",
-        description: "Зеленый горошек, картофель и морковь в кубиках, огурцы маринованные, моцарелла, цыпленок, ветчина из говядины и французский соус с ароматом трюфеля",
-        price: 625,
-        image: "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/fade8c33-27e4-4c84-acd2-4a0138f7baa1.jpg",
-        halalStatus: true,
-        id: 4,
-        date: Date.now()
-      },
-    ],
+    products: [],
+    defaultUrl: "http://192.168.0.51:4000",
     newProduct: {},
+    categories: [],
     promotions: [{
         name: "День Рождения",
         description: "В день вашего рождения дарим Пиццу-пирог 25 см! Акция действует по промокоду D120 один раз.",
@@ -74,6 +39,8 @@ export default new Vuex.Store({
       state.products.filter(element => element.category === "drinks"),
     getDesserts: state =>
       state.products.filter(element => element.category === "desserts"),
+    getCategories: state =>
+      state.categories,
   },
   mutations: {
     ADD_PRODUCT: (state, payload) => {
@@ -82,6 +49,9 @@ export default new Vuex.Store({
         payload.halalStatus === false;
       }
       state.products.push(payload);
+    },
+    ADD_CATEGORY: (state, payload) => {
+      state.categories.push(payload);
     },
     ADD_PROMOTION: (state, payload) => {
       payload.id = state.promotions.length + 1;
@@ -94,7 +64,7 @@ export default new Vuex.Store({
       state.promotions.splice(state.promotions.indexOf(payload), 1)
     },
     EDIT_PRODUCT: (state, payload) => {
-      let id = payload.id;
+      let id = payload._id;
       let editableProduct = state.products.find(element => element.id === id);
       editableProduct.name = payload.name;
       editableProduct.category = payload.category;
@@ -102,7 +72,6 @@ export default new Vuex.Store({
       editableProduct.price = payload.price;
       editableProduct.image = payload.image;
       editableProduct.halalStatus = payload.halalStatus;
-      console.log('name', editableProduct);
     },
     EDIT_PROMOTION: (state, payload) => {
       let id = payload.id;
@@ -110,6 +79,15 @@ export default new Vuex.Store({
       editablePromotion.name = payload.name;
       editablePromotion.description = payload.description;
       editablePromotion.image = payload.image;
+    },
+    SET_PRODUCTS: (state, products) => {
+      state.products = products;
+    },
+    SET_CATEGORIES: (state, categories) => {
+      state.categories = categories;
+    },
+    DELETE_CATEGORY: (state, payload) => {
+      state.categories.splice(state.categories.indexOf(payload), 1);
     }
   },
   actions: {
@@ -121,27 +99,81 @@ export default new Vuex.Store({
     addProduct({
       commit
     }, payload) {
+      console.log('action', payload);
+      axios.post('product', payload).then(res => {
+        console.log('added', res.data);
+      }).catch(err => {
+        console.error(err);
+      })
       commit("ADD_PRODUCT", payload);
     },
     editProduct({
       commit
     }, payload) {
+      axios.put('product', payload).then(res => console.log('edited', res)).catch(err => console.error(err))
       commit("EDIT_PRODUCT", payload);
     },
     editPromotion({
       commit
     }, payload) {
       commit("EDIT_PROMOTION", payload);
+
+    },
+    addCategory({
+      commit
+    }, payload) {
+      commit('ADD_CATEGORY', payload);
+      axios.post('category', payload).then(res => console.log('added cat.', res)).catch(err => console.error(err))
+    },
+    deleteCategory({
+      commit
+    }, payload) {
+      axios.delete('category', {
+        data: {
+          _id: payload._id
+        }
+      }).then(res => {
+        console.log('Deleted', payload.name);
+      }).catch(err => console.error(err))
+      commit("DELETE_CATEGORY", payload);
     },
     deleteProduct({
       commit
     }, payload) {
+      axios.delete('product', {
+        data: {
+          id: payload._id
+        }
+      }).then(res => {
+        console.log('Deleted', payload.name);
+      }).catch(err => console.error(err))
       commit("REMOVE_PRODUCT", payload);
     },
     deletePromotion({
       commit
     }, payload) {
       commit("REMOVE_PROMOTION", payload)
+    },
+    fetchProduct({
+      commit
+    }) {
+
+      axios.get('product')
+        .then(response => {
+          let products = response.data.products;
+          commit('SET_PRODUCTS', products);
+        })
+        .catch(err => console.error(err))
+    },
+    fetchCategories({
+      commit
+    }) {
+      axios.get('category')
+        .then(res => {
+          let categories = res.data.products;
+          commit('SET_CATEGORIES', categories)
+        })
+        .catch(err => console.error(err))
     }
   }
 });

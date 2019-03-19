@@ -10,6 +10,9 @@
     <h2 class="subtitle">Дессерты</h2>
     <list-of-products :products="getDesserts">
     </list-of-products>
+    <h2 class="subtitle">asd</h2>
+    <list-of-products :products="getProducts">
+    </list-of-products>
   </div>
 </template>
 
@@ -19,11 +22,14 @@ import listOfProducts from './ListOfProducts';
 
 export default {
   computed: {
-    ...mapGetters(['getPizzas', 'getDesserts', 'getDrinks', 'getCombos'])
+    ...mapGetters(['getPizzas', 'getDesserts', 'getDrinks', 'getCombos', 'getProducts'])
   },
   components: {
     listOfProducts
   },
+  mounted () {
+    this.$store.dispatch('fetchProduct');
+  }
 
 }
 </script>

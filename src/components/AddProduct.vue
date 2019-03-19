@@ -21,12 +21,11 @@
               required
             >
               <option
-                v-for="(option,index) in product_category"
+                v-for="(category,index) in getCategories"
                 :key="index"
-                :value="option.value"
-              >{{option.text}}</option>
+                :value="category.code"
+              >{{category.name}}</option>
             </b-select>
-
           </div>
         </div>
       </div>
@@ -84,15 +83,15 @@
       <div class="field is-horizontal">
         <div class="field-label">
           <label for="product_image">
-            <p class="subtitle"> Введите ссылку для фотография</p>
+            <p class="subtitle"> Фотография</p>
           </label>
         </div>
         <div class="field-body">
           <input
-            required
-            type="text"
-            class="input is-success sameWidth"
-            v-model="product_image"
+            type="file"
+            :required="true"
+            accept="image/*"
+            ref='file'
           >
         </div>
       </div>
@@ -106,7 +105,6 @@
             <div class="control">
               <div class="field">
                 <b-switch
-                  required
                   v-model="halalState"
                   type="is-success"
                   size="is-medium"
@@ -162,7 +160,7 @@ export default {
     }
   },
   components: { VueNumeric },
-  computed: { ...mapGetters(['getPizzas', 'getCombos', 'getProducts']) },
+  computed: { ...mapGetters(['getPizzas', 'getCombos', 'getProducts', 'getCategories']) },
   methods: {
 
     addProduct () {
@@ -173,11 +171,14 @@ export default {
         price: this.product_price,
         halalStatus: this.halalState,
         category: this.selected_category,
-        image: this.product_image,
-        date: Date.now(),
-        id: ''
       }
-      this.$store.dispatch('addProduct', product);
+      let formData = new FormData();
+      let file = this.$refs.file.files[0];
+      formData.append('image', file);
+      for (let key in product) {
+        formData.append(key, product[key])
+      }
+      this.$store.dispatch('addProduct', formData);
       this.addStatus = 'SENDING';
       setTimeout(() => {
         this.addStatus = 'OK';
@@ -187,9 +188,8 @@ export default {
           position: 'is-bottom-right',
           type: 'is-primary'
         })
-        console.log(product);
       }, 1500)
-    }
+    },
   }
 }
 </script>
