@@ -26,6 +26,10 @@
           to="categories"
           class="button is-success is-rounded"
         > Категории</router-link>
+        <router-link
+          to="orders"
+          class="button is-success is-rounded"
+        > Заказы</router-link>
       </div>
       <div class="navbar-end">
         <!-- Add smthg to the end -->

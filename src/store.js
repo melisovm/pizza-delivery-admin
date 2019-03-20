@@ -26,9 +26,121 @@ export default new Vuex.Store({
         id: 2,
         date: Date.now()
       }
-    ]
+    ],
+    orders: [{
+        name: 'Марсель Мелисов',
+        phone: "+996 558 408 448",
+        address: "Айни, 89",
+        total: 2817,
+        orderList: [{
+            product_id: "c90d74e40d7b81368b92b49",
+            product_quantity: 1
+          },
+          {
+            product_id: "5c90d79940d7b81368b92b4b",
+            product_quantity: 1
+          },
+          {
+            product_id: "5c90d7de40d7b81368b92b4d",
+            product_quantity: 1
+          }, {
+            product_id: "5c90d80e40d7b81368b92b4f",
+            product_quantity: 1
+          }
+        ]
+      },
+      {
+        name: 'Ffq',
+        phone: "+996 558 408 448",
+        address: "Айни, 89",
+        total: 2817,
+        orderList: [{
+            product_id: "c90d74e40d7b81368b92b49",
+            product_quantity: 1
+          },
+          {
+            product_id: "5c90d79940d7b81368b92b4b",
+            product_quantity: 1
+          },
+          {
+            product_id: "5c90d7de40d7b81368b92b4d",
+            product_quantity: 1
+          }, {
+            product_id: "5c90d80e40d7b81368b92b4f",
+            product_quantity: 1
+          }
+        ]
+      },
+      {
+        name: ' Мasdелисов',
+        phone: "+996 558 408 448",
+        address: "Айни, 89",
+        total: 2817,
+        orderList: [{
+            product_id: "c90d74e40d7b81368b92b49",
+            product_quantity: 1
+          },
+          {
+            product_id: "5c90d79940d7b81368b92b4b",
+            product_quantity: 1
+          },
+          {
+            product_id: "5c90d7de40d7b81368b92b4d",
+            product_quantity: 1
+          }, {
+            product_id: "5c90d80e40d7b81368b92b4f",
+            product_quantity: 1
+          }
+        ]
+      }, {
+        name: 'lorem',
+        phone: "+996 558 408 448",
+        address: "Айни, 89",
+        total: 2817,
+        orderList: [{
+            product_id: "c90d74e40d7b81368b92b49",
+            product_quantity: 1
+          },
+          {
+            product_id: "5c90d79940d7b81368b92b4b",
+            product_quantity: 1
+          },
+          {
+            product_id: "5c90d7de40d7b81368b92b4d",
+            product_quantity: 1
+          }, {
+            product_id: "5c90d80e40d7b81368b92b4f",
+            product_quantity: 1
+          }
+        ]
+      }
+    ],
+    ordersInProcess: [{
+      name: 'lorem',
+      phone: "+996 558 408 448",
+      address: "Айни, 89",
+      total: 2817,
+      orderList: [{
+          product_id: "c90d74e40d7b81368b92b49",
+          product_quantity: 1
+        },
+        {
+          product_id: "5c90d79940d7b81368b92b4b",
+          product_quantity: 1
+        },
+        {
+          product_id: "5c90d7de40d7b81368b92b4d",
+          product_quantity: 1
+        }, {
+          product_id: "5c90d80e40d7b81368b92b4f",
+          product_quantity: 1
+        }
+      ]
+    }]
   },
   getters: {
+    getOrders: state => state.orders,
+    getOrdersInProcess: state => state.ordersInProcess,
     getPromotions: state => state.promotions,
     getProducts: state => state.products,
     getPizzas: state =>
@@ -160,9 +272,7 @@ export default new Vuex.Store({
         data: {
           id: payload._id
         }
-      }).then(res => {
-        console.log('Deleted', payload.name);
-      }).catch(err => console.error(err))
+      }).then(res => {}).catch(err => console.error(err))
       commit("REMOVE_PRODUCT", payload);
     },
     deletePromotion({
