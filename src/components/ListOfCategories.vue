@@ -1,18 +1,18 @@
 <template>
   <div class="container">
-
+    <h2 class="title">Все категории</h2>
     <div
       class="columns is-full"
-      v-for="(category, index) in categories"
+      v-for="(category, index) in getCategories"
       :key="index"
     >
       <div class="column">
         <div class="box navbar">
           <div class="navbar-item">
-            <p class="subtitle ">Имя: {{category.name}}</p>
+            <p class="subtitle ">Имя категории: {{category.name}}</p>
           </div>
           <div class="navbar-item">
-            <p class="subtitle ">Код: {{category.code}}</p>
+            <p class="subtitle ">Код категории: {{category.code}}</p>
           </div>
           <div class="navbar-end navbar-item">
             <button
@@ -42,12 +42,14 @@ import CategoryModalForm from './CategoryModalForm'
 
 export default {
   components: { CategoryModalForm },
-  props: ['categories'],
   data () {
     return {
       isModalActive: false,
       item: {}
     }
+  },
+  computed: {
+    ...mapGetters(['getCategories'])
   },
   methods: {
     ...mapActions(['deleteCategory']),
@@ -58,15 +60,15 @@ export default {
     confirmDelete (payload) {
       this.item = payload;
       this.$dialog.confirm({
-        title: 'Удаление продукта',
-        message: 'Вы уверены что хотите <b>удалить</b> этот продукт? После Вы не можете восстановить данные',
-        confirmText: 'Удалить продукт',
+        title: 'Удаление категории',
+        message: 'Вы уверены что хотите <b>удалить</b> эту категорию? После Вы не можете восстановить данные',
+        confirmText: 'Удалить категорию',
         cancelText: 'Отмена',
         type: 'is-danger',
         hasIcon: true,
         onConfirm: () => {
           this.$toast.open({
-            message: `Продукт <b>${payload.name}</b> удалён! `,
+            message: `Категория <b>${payload.name}</b> удалён! `,
             duration: 3000,
             position: 'is-bottom-left',
             type: 'is-dark'

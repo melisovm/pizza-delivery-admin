@@ -8,7 +8,7 @@ import AllPromotions from '../components/AllPromotions'
 import Categories from '../components/Categories'
 import Products from '../components/Products'
 import Promotions from '../components/Promotions'
-
+import AddCategory from '../components/AddCategory'
 
 Vue.use(Router);
 
@@ -47,6 +47,12 @@ export default new Router({
       path: '/promotions',
       name: 'Promotions',
       component: Promotions
+    },
+    {
+      path: '/add-category',
+      name: 'AddCategory',
+      component: AddCategory
+
     }
   ]
 });

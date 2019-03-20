@@ -16,6 +16,7 @@
 </template>
 
 <script>
+
 import AllProducts from '../components/AllProducts'
 import AddProduct from '../components/AddProduct'
 
@@ -32,9 +33,10 @@ export default {
     AddProduct
   },
   methods: {
-    mounted () {
-      this.$store.dispatch('fetchCategories')
-    }
+
+  },
+  mounted () {
+    this.$store.dispatch('fetchCategories')
   }
 }
 </script>

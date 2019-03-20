@@ -65,7 +65,7 @@ export default {
         name: this.editedCategoryName,
         code: this.editedCategoryCode,
       }
-      this.$store.dispatch('editCategory', editedFormData);
+      this.$store.dispatch('editCategory', editedCategory);
     }
   },
 }

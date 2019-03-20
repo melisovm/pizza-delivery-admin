@@ -73,6 +73,12 @@ export default new Vuex.Store({
       editableProduct.image = payload.image;
       editableProduct.halalStatus = payload.halalStatus;
     },
+    EDIT_CATEGORY: (state, payload, formData) => {
+      let id = payload._id;
+      let editableCategory = state.categories.find(element => element.id === id);
+      editableCategory.name = payload.name;
+      editableCategory.code = payload.code;
+    },
     EDIT_PROMOTION: (state, payload) => {
       let id = payload.id;
       let editablePromotion = state.promotions.find(element => element.id === id)
@@ -109,9 +115,19 @@ export default new Vuex.Store({
     },
     editProduct({
       commit
+    }, {
+      editedProduct,
+      editedFormData
+    }) {
+      console.log('formData', editedFormData);
+      axios.put('product', editedFormData).then(res => console.log('edited', res)).catch(err => console.error(err.res))
+      commit("EDIT_PRODUCT", editedProduct, editedFormData);
+    },
+    editCategory({
+      commit
     }, payload) {
-      axios.put('product', payload).then(res => console.log('edited', res)).catch(err => console.error(err))
-      commit("EDIT_PRODUCT", payload);
+      axios.put('category', payload).then(res => console.log('edited catt.', res)).catch(err => console.error(err))
+      commit("EDIT_CATEGORY", payload)
     },
     editPromotion({
       commit

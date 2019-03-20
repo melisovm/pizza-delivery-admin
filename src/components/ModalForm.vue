@@ -163,18 +163,21 @@ export default {
 
       const editedProduct = {
         name: this.editedName,
-        category: this.editedCategory,
         description: this.editedDescription,
         price: this.editedPrice,
         halalStatus: this.editedStatus,
+        category: this.editedCategory,
+
       }
       let editedFormData = new FormData();
       let editedFile = this.$refs.editedfile.files[0];
       editedFormData.append('image', editedFile);
       for (let key in editedProduct) {
         editedFormData.append(key, editedProduct[key])
+        console.log(key, ':', editedProduct[key]);
       }
-      this.$store.dispatch('editProduct', editedFormData);
+      console.log('from form', editedFormData);
+      this.$store.dispatch('editProduct', { editedProduct, editedFormData });
     }
   },
 }
