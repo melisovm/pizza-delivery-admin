@@ -1,8 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from './plugins/axios'
-
-
+import axios from "./plugins/axios";
 
 Vue.use(Vuex);
 
@@ -12,27 +10,33 @@ export default new Vuex.Store({
     defaultUrl: "http://192.168.0.51:4000",
     newProduct: {},
     categories: [],
-    promotions: [{
+    promotions: [
+      {
         name: "День Рождения",
-        description: "В день вашего рождения дарим Пиццу-пирог 25 см! Акция действует по промокоду D120 один раз.",
-        image: "http://www.metroves.ru/upload/iblock/e71/e7173f9295275c498c4491536ac1a76c.png",
+        description:
+          "В день вашего рождения дарим Пиццу-пирог 25 см! Акция действует по промокоду D120 один раз.",
+        image:
+          "http://www.metroves.ru/upload/iblock/e71/e7173f9295275c498c4491536ac1a76c.png",
         id: 1,
         date: Date.now()
       },
       {
         name: "Доставим вовремя или за наш счет",
-        description: "Мы придерживаемся золотых правил и всегда следим за тем, чтобы наши заказы доставлялись вовремя, а лучше даже раньше обещанного времени.",
+        description:
+          "Мы придерживаемся золотых правил и всегда следим за тем, чтобы наши заказы доставлялись вовремя, а лучше даже раньше обещанного времени.",
         image: "http://mobile.mypizza.kg:9715/api/ImageFor?id=3115",
         id: 2,
         date: Date.now()
       }
     ],
-    orders: [{
-        name: 'Марсель Мелисов',
+    orders: [
+      {
+        name: "Марсель Мелисов",
         phone: "+996 558 408 448",
         address: "Айни, 89",
         total: 2817,
-        orderList: [{
+        orderList: [
+          {
             product_id: "c90d74e40d7b81368b92b49",
             product_quantity: 1
           },
@@ -43,18 +47,20 @@ export default new Vuex.Store({
           {
             product_id: "5c90d7de40d7b81368b92b4d",
             product_quantity: 1
-          }, {
+          },
+          {
             product_id: "5c90d80e40d7b81368b92b4f",
             product_quantity: 1
           }
         ]
       },
       {
-        name: 'Ffq',
+        name: "Ffq",
         phone: "+996 558 408 448",
         address: "Айни, 89",
         total: 2817,
-        orderList: [{
+        orderList: [
+          {
             product_id: "c90d74e40d7b81368b92b49",
             product_quantity: 1
           },
@@ -65,18 +71,20 @@ export default new Vuex.Store({
           {
             product_id: "5c90d7de40d7b81368b92b4d",
             product_quantity: 1
-          }, {
+          },
+          {
             product_id: "5c90d80e40d7b81368b92b4f",
             product_quantity: 1
           }
         ]
       },
       {
-        name: ' Мasdелисов',
+        name: " Мasdелисов",
         phone: "+996 558 408 448",
         address: "Айни, 89",
         total: 2817,
-        orderList: [{
+        orderList: [
+          {
             product_id: "c90d74e40d7b81368b92b49",
             product_quantity: 1
           },
@@ -87,17 +95,20 @@ export default new Vuex.Store({
           {
             product_id: "5c90d7de40d7b81368b92b4d",
             product_quantity: 1
-          }, {
+          },
+          {
             product_id: "5c90d80e40d7b81368b92b4f",
             product_quantity: 1
           }
         ]
-      }, {
-        name: 'lorem',
+      },
+      {
+        name: "lorem",
         phone: "+996 558 408 448",
         address: "Айни, 89",
         total: 2817,
-        orderList: [{
+        orderList: [
+          {
             product_id: "c90d74e40d7b81368b92b49",
             product_quantity: 1
           },
@@ -108,35 +119,40 @@ export default new Vuex.Store({
           {
             product_id: "5c90d7de40d7b81368b92b4d",
             product_quantity: 1
-          }, {
+          },
+          {
             product_id: "5c90d80e40d7b81368b92b4f",
             product_quantity: 1
           }
         ]
       }
     ],
-    ordersInProcess: [{
-      name: 'lorem',
-      phone: "+996 558 408 448",
-      address: "Айни, 89",
-      total: 2817,
-      orderList: [{
-          product_id: "c90d74e40d7b81368b92b49",
-          product_quantity: 1
-        },
-        {
-          product_id: "5c90d79940d7b81368b92b4b",
-          product_quantity: 1
-        },
-        {
-          product_id: "5c90d7de40d7b81368b92b4d",
-          product_quantity: 1
-        }, {
-          product_id: "5c90d80e40d7b81368b92b4f",
-          product_quantity: 1
-        }
-      ]
-    }]
+    ordersInProcess: [
+      {
+        name: "lorem2",
+        phone: "+996 558 408 448",
+        address: "Айни, 89",
+        total: 2817,
+        orderList: [
+          {
+            product_id: "c90d74e40d7b81368b92b49",
+            product_quantity: 1
+          },
+          {
+            product_id: "5c90d79940d7b81368b92b4b",
+            product_quantity: 1
+          },
+          {
+            product_id: "5c90d7de40d7b81368b92b4d",
+            product_quantity: 1
+          },
+          {
+            product_id: "5c90d80e40d7b81368b92b4f",
+            product_quantity: 1
+          }
+        ]
+      }
+    ]
   },
   getters: {
     getOrders: state => state.orders,
@@ -151,8 +167,7 @@ export default new Vuex.Store({
       state.products.filter(element => element.category === "drinks"),
     getDesserts: state =>
       state.products.filter(element => element.category === "desserts"),
-    getCategories: state =>
-      state.categories,
+    getCategories: state => state.categories
   },
   mutations: {
     ADD_PRODUCT: (state, payload) => {
@@ -170,10 +185,10 @@ export default new Vuex.Store({
       state.promotions.push(payload);
     },
     REMOVE_PRODUCT: (state, payload) => {
-      state.products.splice(state.products.indexOf(payload), 1)
+      state.products.splice(state.products.indexOf(payload), 1);
     },
     REMOVE_PROMOTION: (state, payload) => {
-      state.promotions.splice(state.promotions.indexOf(payload), 1)
+      state.promotions.splice(state.promotions.indexOf(payload), 1);
     },
     EDIT_PRODUCT: (state, payload) => {
       let id = payload._id;
@@ -187,13 +202,17 @@ export default new Vuex.Store({
     },
     EDIT_CATEGORY: (state, payload, formData) => {
       let id = payload._id;
-      let editableCategory = state.categories.find(element => element.id === id);
+      let editableCategory = state.categories.find(
+        element => element.id === id
+      );
       editableCategory.name = payload.name;
       editableCategory.code = payload.code;
     },
     EDIT_PROMOTION: (state, payload) => {
       let id = payload.id;
-      let editablePromotion = state.promotions.find(element => element.id === id)
+      let editablePromotion = state.promotions.find(
+        element => element.id === id
+      );
       editablePromotion.name = payload.name;
       editablePromotion.description = payload.description;
       editablePromotion.image = payload.image;
@@ -206,100 +225,112 @@ export default new Vuex.Store({
     },
     DELETE_CATEGORY: (state, payload) => {
       state.categories.splice(state.categories.indexOf(payload), 1);
+    },
+    REMOVE_ORDER: (state, payload) => {
+      state.orders.splice(state.orders.indexOf(payload), 1);
+    },
+    CONFIRM_ORDER: (state, payload) => {
+      state.ordersInProcess.unshift(payload);
+    },
+    FINISH_ORDER: (state, payload) => {
+      state.ordersInProcess.splice(state.ordersInProcess.indexOf(payload), 1);
     }
   },
   actions: {
-    addPromotion({
-      commit
-    }, payload) {
+    addPromotion({ commit }, payload) {
       commit("ADD_PROMOTION", payload);
     },
-    addProduct({
-      commit
-    }, payload) {
-      console.log('action', payload);
-      axios.post('product', payload).then(res => {
-        console.log('added', res.data);
-      }).catch(err => {
-        console.error(err);
-      })
+    addProduct({ commit }, payload) {
+      console.log("action", payload);
+      axios
+        .post("product", payload)
+        .then(res => {
+          console.log("added", res.data);
+        })
+        .catch(err => {
+          console.error(err);
+        });
       commit("ADD_PRODUCT", payload);
     },
-    editProduct({
-      commit
-    }, {
-      editedProduct,
-      editedFormData
-    }) {
-      console.log('formData', editedFormData);
-      axios.put('product', editedFormData).then(res => console.log('edited', res)).catch(err => console.error(err.res))
+    editProduct({ commit }, { editedProduct, editedFormData }) {
+      console.log("formData", editedFormData);
+      axios
+        .put("product", editedFormData)
+        .then(res => console.log("edited", res))
+        .catch(err => console.error(err.res));
       commit("EDIT_PRODUCT", editedProduct, editedFormData);
     },
-    editCategory({
-      commit
-    }, payload) {
-      axios.put('category', payload).then(res => console.log('edited catt.', res)).catch(err => console.error(err))
-      commit("EDIT_CATEGORY", payload)
+    editCategory({ commit }, payload) {
+      axios
+        .put("category", payload)
+        .then(res => console.log("edited catt.", res))
+        .catch(err => console.error(err));
+      commit("EDIT_CATEGORY", payload);
     },
-    editPromotion({
-      commit
-    }, payload) {
+    editPromotion({ commit }, payload) {
       commit("EDIT_PROMOTION", payload);
-
     },
-    addCategory({
-      commit
-    }, payload) {
-      commit('ADD_CATEGORY', payload);
-      axios.post('category', payload).then(res => console.log('added cat.', res)).catch(err => console.error(err))
+    addCategory({ commit }, payload) {
+      commit("ADD_CATEGORY", payload);
+      axios
+        .post("category", payload)
+        .then(res => console.log("added cat.", res))
+        .catch(err => console.error(err));
     },
-    deleteCategory({
-      commit
-    }, payload) {
-      axios.delete('category', {
-        data: {
-          _id: payload._id
-        }
-      }).then(res => {
-        console.log('Deleted', payload.name);
-      }).catch(err => console.error(err))
+    deleteCategory({ commit }, payload) {
+      axios
+        .delete("category", {
+          data: {
+            _id: payload._id
+          }
+        })
+        .then(res => {
+          console.log("Deleted", payload.name);
+        })
+        .catch(err => console.error(err));
       commit("DELETE_CATEGORY", payload);
     },
-    deleteProduct({
-      commit
-    }, payload) {
-      axios.delete('product', {
-        data: {
-          id: payload._id
-        }
-      }).then(res => {}).catch(err => console.error(err))
+    deleteProduct({ commit }, payload) {
+      axios
+        .delete("product", {
+          data: {
+            id: payload._id
+          }
+        })
+        .then(res => {})
+        .catch(err => console.error(err));
       commit("REMOVE_PRODUCT", payload);
     },
-    deletePromotion({
-      commit
-    }, payload) {
-      commit("REMOVE_PROMOTION", payload)
+    deletePromotion({ commit }, payload) {
+      commit("REMOVE_PROMOTION", payload);
     },
-    fetchProduct({
-      commit
-    }) {
-
-      axios.get('product')
+    deleteOrder({ commit }, payload) {
+      commit("REMOVE_ORDER", payload);
+    },
+    confirmOrder({ commit }, payload) {
+      commit("CONFIRM_ORDER", payload);
+      commit("REMOVE_ORDER", payload);
+    },
+    finishOrder({ commit }, payload) {
+      commit("FINISH_ORDER", payload);
+    },
+    fetchProduct({ commit }) {
+      axios
+        .get("product")
         .then(response => {
           let products = response.data.products;
-          commit('SET_PRODUCTS', products);
+          commit("SET_PRODUCTS", products);
         })
-        .catch(err => console.error(err))
+        .catch(err => console.error(err));
     },
-    fetchCategories({
-      commit
-    }) {
-      axios.get('category')
+    fetchCategories({ commit }) {
+      axios
+        .get("category")
         .then(res => {
           let categories = res.data.products;
-          commit('SET_CATEGORIES', categories)
+          commit("SET_CATEGORIES", categories);
         })
-        .catch(err => console.error(err))
+        .catch(err => console.error(err));
     }
   }
 });
