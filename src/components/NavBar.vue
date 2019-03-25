@@ -21,7 +21,7 @@
         <router-link
           to="promotions"
           class="button is-success is-rounded"
-        > Акцию/Новости</router-link>
+        > Акции/Новости</router-link>
         <router-link
           to="categories"
           class="button is-success is-rounded"

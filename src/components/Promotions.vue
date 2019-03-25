@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="title">Категории</h1>
+    <h1 class="title">Акции</h1>
     <a
       class="button is-large is-success is-inverted"
       @click="addPage=false"

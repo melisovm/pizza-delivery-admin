@@ -256,7 +256,7 @@ export default new Vuex.Store({
     fetchProduct({
       commit
     }) {
-      axios
+      return axios
         .get("product")
         .then(response => {
           let products = response.data.products;
@@ -270,19 +270,39 @@ export default new Vuex.Store({
       axios
         .get("category")
         .then(res => {
-          let categories = res.data.products;
+          let categories = res.data.categories;
           commit("SET_CATEGORIES", categories);
         })
         .catch(err => console.error(err));
     },
     fetchOrders({
-      commit
+      commit,
+      dispatch,
+      state
     }) {
       axios
         .get('order')
-        .then(res => {
-          let order = res.data.products
-          commit('SET_ORDERS', order)
+        .then((res) => {
+          let orders = res.data.orders
+          if (!state.products.length) {
+            dispatch('fetchProduct').then(() => {
+              let products = state.products
+              console.log('test', products);
+              orders.forEach(order => {
+                order.orderList = order.orderList.map((element) => {
+                  let product = products.find(product => product._id === element.product_id)
+                  if (product) {
+                    element.product_name = product.name;
+                  }
+                  return element
+                })
+
+              })
+              console.log('test order', orders);
+              commit('SET_ORDERS', orders)
+            });
+          }
+
         })
         .catch(err => console.error(err));
     }

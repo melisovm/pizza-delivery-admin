@@ -10,6 +10,7 @@ import Products from '../components/Products'
 import Promotions from '../components/Promotions'
 import AddCategory from '../components/AddCategory'
 import Orders from '../components/Orders'
+import OrderInfoModal from '../components/OrderInfoModal'
 
 Vue.use(Router);
 
@@ -59,6 +60,12 @@ export default new Router({
       path: '/orders',
       name: 'Orders',
       component: Orders
+
+    },
+    {
+      path: '/order-info',
+      name: 'OrderInfoModal',
+      component: OrderInfoModal
 
     }
   ]

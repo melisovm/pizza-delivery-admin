@@ -15,13 +15,11 @@
         <p class="subtitle">{{index+1}}</p>
       </div>
       <div class="navbar-item">
-        <p class="title">{{order.customer_name}}</p>
-      </div>
-      <div class="navbar-item">
-        <p class="subtitle"> <b>Телефон:</b> {{order.phone}}</p>
-      </div>
-      <div class="navbar-item">
-        <p class="subtitle"><b>Адрес</b>: {{order.address}}</p>
+        <p
+          class="title"
+          @click="openModal(order)"
+          style="cursor:pointer"
+        >{{order.customer_name}}</p>
       </div>
       <div class="navbar-item">
         <p class="subtitle">Заказ на сумму <b>{{order.total_price}}</b> сом</p>
@@ -52,14 +50,12 @@
       v-for="order in getOrdersInProcess"
       :key="order._id"
     >
-      <div class="navbar-item">
+      <div
+        class="navbar-item"
+        @click="openModal(order)"
+        style="cursor:pointer"
+      >
         <p class="title">{{order.customer_name}}</p>
-      </div>
-      <div class="navbar-item">
-        <p class="subtitle">{{order.address}}</p>
-      </div>
-      <div class="navbar-item">
-        <p class="subtitle">{{order.phone}}</p>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
@@ -86,14 +82,12 @@
       v-for="order in getOrdersFinished"
       :key="order._id"
     >
-      <div class="navbar-item">
+      <div
+        class="navbar-item"
+        @click="openModal(order)"
+        style="cursor:pointer"
+      >
         <p class="title">{{order.customer_name}}</p>
-      </div>
-      <div class="navbar-item">
-        <p class="subtitle">{{order.address}}</p>
-      </div>
-      <div class="navbar-item">
-        <p class="subtitle">{{order.phone}}</p>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
@@ -110,21 +104,36 @@
         </div>
       </div>
     </div>
+    <b-modal
+      :active.sync="isModalActive"
+      has-modal-card
+    >
+      <order-info-modal :orderDetails="item"></order-info-modal>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import OrderInfoModal from './OrderInfoModal';
+
+
 export default {
+  components: { OrderInfoModal },
   data () {
     return {
-
+      isModalActive: false,
+      item: {}
     }
   },
   computed: {
     ...mapGetters(['getOrders', 'getOrdersInProcess', 'getOrdersFinished'])
   },
   methods: {
+    openModal (order) {
+      this.isModalActive = true;
+      this.item = order;
+    },
     deleteOrder (payload) {
       this.$dialog.confirm({
         title: 'Удаление заказа',

@@ -40,9 +40,7 @@ export default {
   methods: {
 
   },
-  mounted () {
-    this.$store.dispatch('fetchCategories')
-  }
+
 }
 </script>
 

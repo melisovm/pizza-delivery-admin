@@ -78,6 +78,9 @@ export default {
         }
       })
     }
+  },
+  mounted () {
+    this.$store.dispatch('fetchCategories')
   }
 }
 </script>
