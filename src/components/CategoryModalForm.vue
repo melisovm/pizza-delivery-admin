@@ -64,6 +64,7 @@ export default {
       const editedCategory = {
         name: this.editedCategoryName,
         code: this.editedCategoryCode,
+        id: this.categoryDetails._id
       }
       this.$store.dispatch('editCategory', editedCategory);
     }

@@ -1,78 +1,115 @@
 <template>
   <div class="container">
     <h1 class="title">Заказы</h1>
-    <h2 class="subtitle">Активные</h2>
-    <transition-group
-      name="list"
-      tag="div"
-    >
+    <h2
+      class="subtitle"
+      v-if="getOrders.length > 0"
+    >Активные</h2>
 
-      <div
-        class="box navbar "
-        v-for="(order, index) in getOrders"
-        :key="index"
-      >
-        <div class="navbar-brand navbar-item">
-          <p class="subtitle">{{index+1}}</p>
+    <div
+      class="box navbar "
+      v-for="(order, index) in getOrders"
+      :key="order._id"
+    >
+      <div class="navbar-brand navbar-item">
+        <p class="subtitle">{{index+1}}</p>
+      </div>
+      <div class="navbar-item">
+        <p class="title">{{order.customer_name}}</p>
+      </div>
+      <div class="navbar-item">
+        <p class="subtitle"> <b>Телефон:</b> {{order.phone}}</p>
+      </div>
+      <div class="navbar-item">
+        <p class="subtitle"><b>Адрес</b>: {{order.address}}</p>
+      </div>
+      <div class="navbar-item">
+        <p class="subtitle">Заказ на сумму <b>{{order.total_price}}</b> сом</p>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <button
+            class="button is-warning"
+            @click="confirmOrder(order)"
+          >Подтвердить</button>
         </div>
         <div class="navbar-item">
-          <p class="title">{{order.name}}</p>
+          <button
+            class="button is-danger"
+            @click="deleteOrder(order)"
+          >Удалить</button>
+        </div>
+
+      </div>
+    </div>
+
+    <h2
+      class="subtitle"
+      v-if="getOrdersInProcess.length > 0"
+    >В процессе </h2>
+    <div
+      class="box navbar"
+      v-for="order in getOrdersInProcess"
+      :key="order._id"
+    >
+      <div class="navbar-item">
+        <p class="title">{{order.customer_name}}</p>
+      </div>
+      <div class="navbar-item">
+        <p class="subtitle">{{order.address}}</p>
+      </div>
+      <div class="navbar-item">
+        <p class="subtitle">{{order.phone}}</p>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <button
+            class="button is-warning"
+            @click="finishOrder(order)"
+          >Выполнен</button>
         </div>
         <div class="navbar-item">
-          <p class="subtitle"> <b>Телефон:</b> {{order.phone}}</p>
-        </div>
-        <div class="navbar-item">
-          <p class="subtitle"><b>Адрес</b>: {{order.address}}</p>
-        </div>
-        <div class="navbar-item">
-          <p class="subtitle">Заказ на сумму <b>{{order.total}}</b> сом</p>
-        </div>
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <button
-              class="button is-danger"
-              @click="deleteOrder(order)"
-            >Удалить</button>
-          </div>
-          <div class="navbar-item">
-            <button
-              class="button is-primary"
-              @click="confirmOrder(order)"
-            >Подтвердить</button>
-          </div>
+          <button
+            class="button is-primary"
+            @click="backToActive(order)"
+          >Назад в Активные</button>
+
         </div>
       </div>
-    </transition-group>
-
-    <h2 class="subtitle">В процессе </h2>
-    <transition-group
-      name="list"
-      tag="div"
+    </div>
+    <h2
+      class="subtitle"
+      v-if="getOrdersFinished.length > 0"
+    >Завершенные </h2>
+    <div
+      class="box navbar"
+      v-for="order in getOrdersFinished"
+      :key="order._id"
     >
-      <div
-        class="box navbar"
-        v-for="(order, index) in getOrdersInProcess"
-        :key="index"
-      >
+      <div class="navbar-item">
+        <p class="title">{{order.customer_name}}</p>
+      </div>
+      <div class="navbar-item">
+        <p class="subtitle">{{order.address}}</p>
+      </div>
+      <div class="navbar-item">
+        <p class="subtitle">{{order.phone}}</p>
+      </div>
+      <div class="navbar-end">
         <div class="navbar-item">
-          <p class="title">{{order.name}}</p>
+          <button
+            class="button is-danger"
+            @click="deleteOrder(order)"
+          >Удалить</button>
         </div>
         <div class="navbar-item">
-          <p class="subtitle">{{order.address}}</p>
-        </div>
-        <div class="navbar-item">
-          <p class="subtitle">{{order.phone}}</p>
-        </div>
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <button
-              class="button is-warning"
-              @click="finishOrder(order)"
-            >Выполнен</button>
-          </div>
+          <button
+            class="button is-primary"
+            @click="backToInProcess(order)"
+          >Назад в В Процессе</button>
         </div>
       </div>
-    </transition-group>
+    </div>
   </div>
 </template>
 
@@ -85,7 +122,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getOrders', 'getOrdersInProcess'])
+    ...mapGetters(['getOrders', 'getOrdersInProcess', 'getOrdersFinished'])
   },
   methods: {
     deleteOrder (payload) {
@@ -98,7 +135,7 @@ export default {
         hasIcon: true,
         onConfirm: () => {
           this.$toast.open({
-            message: `Заказ <b> ${payload.name}</b> удалён! `,
+            message: `Заказ <b> ${payload.customer_name}</b> удалён! `,
             duration: 3000,
             position: 'is-bottom-left',
             type: 'is-dark'
@@ -109,11 +146,21 @@ export default {
     },
     confirmOrder (payload) {
       this.$store.dispatch("confirmOrder", payload);
+      this.$store.dispatch('changeStatus', payload);
+    },
+    backToActive (order) {
+      this.$store.dispatch('changeStatusActive', order);
     },
     finishOrder (payload) {
       this.$store.dispatch("finishOrder", payload);
+    },
+    backToInProcess (order) {
+      this.$store.dispatch('changeStatus', order)
     }
   },
+  mounted () {
+    this.$store.dispatch('fetchOrders')
+  }
 }
 </script>
 

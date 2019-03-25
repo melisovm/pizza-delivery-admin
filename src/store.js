@@ -10,153 +10,27 @@ export default new Vuex.Store({
     defaultUrl: "http://192.168.0.51:4000",
     newProduct: {},
     categories: [],
-    promotions: [
-      {
+    promotions: [{
         name: "День Рождения",
-        description:
-          "В день вашего рождения дарим Пиццу-пирог 25 см! Акция действует по промокоду D120 один раз.",
-        image:
-          "http://www.metroves.ru/upload/iblock/e71/e7173f9295275c498c4491536ac1a76c.png",
+        description: "В день вашего рождения дарим Пиццу-пирог 25 см! Акция действует по промокоду D120 один раз.",
+        image: "http://www.metroves.ru/upload/iblock/e71/e7173f9295275c498c4491536ac1a76c.png",
         id: 1,
         date: Date.now()
       },
       {
         name: "Доставим вовремя или за наш счет",
-        description:
-          "Мы придерживаемся золотых правил и всегда следим за тем, чтобы наши заказы доставлялись вовремя, а лучше даже раньше обещанного времени.",
+        description: "Мы придерживаемся золотых правил и всегда следим за тем, чтобы наши заказы доставлялись вовремя, а лучше даже раньше обещанного времени.",
         image: "http://mobile.mypizza.kg:9715/api/ImageFor?id=3115",
         id: 2,
         date: Date.now()
       }
     ],
-    orders: [
-      {
-        name: "Марсель Мелисов",
-        phone: "+996 558 408 448",
-        address: "Айни, 89",
-        total: 2817,
-        orderList: [
-          {
-            product_id: "c90d74e40d7b81368b92b49",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d79940d7b81368b92b4b",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d7de40d7b81368b92b4d",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d80e40d7b81368b92b4f",
-            product_quantity: 1
-          }
-        ]
-      },
-      {
-        name: "Ffq",
-        phone: "+996 558 408 448",
-        address: "Айни, 89",
-        total: 2817,
-        orderList: [
-          {
-            product_id: "c90d74e40d7b81368b92b49",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d79940d7b81368b92b4b",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d7de40d7b81368b92b4d",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d80e40d7b81368b92b4f",
-            product_quantity: 1
-          }
-        ]
-      },
-      {
-        name: " Мasdелисов",
-        phone: "+996 558 408 448",
-        address: "Айни, 89",
-        total: 2817,
-        orderList: [
-          {
-            product_id: "c90d74e40d7b81368b92b49",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d79940d7b81368b92b4b",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d7de40d7b81368b92b4d",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d80e40d7b81368b92b4f",
-            product_quantity: 1
-          }
-        ]
-      },
-      {
-        name: "lorem",
-        phone: "+996 558 408 448",
-        address: "Айни, 89",
-        total: 2817,
-        orderList: [
-          {
-            product_id: "c90d74e40d7b81368b92b49",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d79940d7b81368b92b4b",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d7de40d7b81368b92b4d",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d80e40d7b81368b92b4f",
-            product_quantity: 1
-          }
-        ]
-      }
-    ],
-    ordersInProcess: [
-      {
-        name: "lorem2",
-        phone: "+996 558 408 448",
-        address: "Айни, 89",
-        total: 2817,
-        orderList: [
-          {
-            product_id: "c90d74e40d7b81368b92b49",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d79940d7b81368b92b4b",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d7de40d7b81368b92b4d",
-            product_quantity: 1
-          },
-          {
-            product_id: "5c90d80e40d7b81368b92b4f",
-            product_quantity: 1
-          }
-        ]
-      }
-    ]
+    orders: [],
   },
   getters: {
-    getOrders: state => state.orders,
-    getOrdersInProcess: state => state.ordersInProcess,
+    getOrders: state => state.orders.filter(order => order.status === "not_done"),
+    getOrdersInProcess: state => state.orders.filter(order => order.status === "process"),
+    getOrdersFinished: state => state.orders.filter(order => order.status === "done"),
     getPromotions: state => state.promotions,
     getProducts: state => state.products,
     getPizzas: state =>
@@ -171,7 +45,6 @@ export default new Vuex.Store({
   },
   mutations: {
     ADD_PRODUCT: (state, payload) => {
-      payload.id = state.products.length + 1;
       if (payload.halalStatus === -1) {
         payload.halalStatus === false;
       }
@@ -229,18 +102,29 @@ export default new Vuex.Store({
     REMOVE_ORDER: (state, payload) => {
       state.orders.splice(state.orders.indexOf(payload), 1);
     },
-    CONFIRM_ORDER: (state, payload) => {
-      state.ordersInProcess.unshift(payload);
+    CONFIRM_ORDER: (state, order) => {
+      // state.ordersInProcess.unshift(payload);
+      order.status = "process";
     },
-    FINISH_ORDER: (state, payload) => {
-      state.ordersInProcess.splice(state.ordersInProcess.indexOf(payload), 1);
+    CHANGE_STATUS_ACTIVE: (state, order) => {
+      order.status = "not_done";
+    },
+    SET_ORDERS: (state, order) => {
+      state.orders = order;
+    },
+    CHANGE_STATUS_FINISH: (state, order) => {
+      order.status = "done";
     }
   },
   actions: {
-    addPromotion({ commit }, payload) {
+    addPromotion({
+      commit
+    }, payload) {
       commit("ADD_PROMOTION", payload);
     },
-    addProduct({ commit }, payload) {
+    addProduct({
+      commit
+    }, payload) {
       console.log("action", payload);
       axios
         .post("product", payload)
@@ -250,9 +134,13 @@ export default new Vuex.Store({
         .catch(err => {
           console.error(err);
         });
-      commit("ADD_PRODUCT", payload);
     },
-    editProduct({ commit }, { editedProduct, editedFormData }) {
+    editProduct({
+      commit
+    }, {
+      editedProduct,
+      editedFormData
+    }) {
       console.log("formData", editedFormData);
       axios
         .put("product", editedFormData)
@@ -260,37 +148,45 @@ export default new Vuex.Store({
         .catch(err => console.error(err.res));
       commit("EDIT_PRODUCT", editedProduct, editedFormData);
     },
-    editCategory({ commit }, payload) {
+    editCategory({
+      commit
+    }, payload) {
       axios
         .put("category", payload)
         .then(res => console.log("edited catt.", res))
         .catch(err => console.error(err));
       commit("EDIT_CATEGORY", payload);
     },
-    editPromotion({ commit }, payload) {
+    editPromotion({
+      commit
+    }, payload) {
       commit("EDIT_PROMOTION", payload);
     },
-    addCategory({ commit }, payload) {
+    addCategory({
+      commit
+    }, payload) {
       commit("ADD_CATEGORY", payload);
       axios
         .post("category", payload)
         .then(res => console.log("added cat.", res))
         .catch(err => console.error(err));
     },
-    deleteCategory({ commit }, payload) {
+    deleteCategory({
+      commit
+    }, payload) {
       axios
         .delete("category", {
           data: {
-            _id: payload._id
+            id: payload._id
           }
         })
-        .then(res => {
-          console.log("Deleted", payload.name);
-        })
+        .then(res => {})
         .catch(err => console.error(err));
       commit("DELETE_CATEGORY", payload);
     },
-    deleteProduct({ commit }, payload) {
+    deleteProduct({
+      commit
+    }, payload) {
       axios
         .delete("product", {
           data: {
@@ -301,20 +197,65 @@ export default new Vuex.Store({
         .catch(err => console.error(err));
       commit("REMOVE_PRODUCT", payload);
     },
-    deletePromotion({ commit }, payload) {
+    deletePromotion({
+      commit
+    }, payload) {
       commit("REMOVE_PROMOTION", payload);
     },
-    deleteOrder({ commit }, payload) {
+    deleteOrder({
+      commit
+    }, payload) {
+      axios.delete("order", {
+        data: {
+          id: payload._id
+        }
+      })
       commit("REMOVE_ORDER", payload);
     },
-    confirmOrder({ commit }, payload) {
+    confirmOrder({
+      commit
+    }, payload) {
       commit("CONFIRM_ORDER", payload);
-      commit("REMOVE_ORDER", payload);
     },
-    finishOrder({ commit }, payload) {
-      commit("FINISH_ORDER", payload);
+    changeStatus({
+      commit
+    }, order) {
+      let statusOrder = {
+        id: order._id,
+        status: "process"
+      }
+      axios
+        .put("order/status", statusOrder)
+        .catch(err => console.error(err))
+      commit('CONFIRM_ORDER', order)
     },
-    fetchProduct({ commit }) {
+    changeStatusActive({
+      commit
+    }, order) {
+      let statusOrder = {
+        id: order._id,
+        status: "not_done"
+      }
+      axios
+        .put("order/status", statusOrder)
+        .catch(err => console.error(err))
+      commit('CHANGE_STATUS_ACTIVE', order)
+    },
+    finishOrder({
+      commit
+    }, order) {
+      let statusOrder = {
+        id: order._id,
+        status: "done"
+      }
+      axios
+        .put("order/status", statusOrder)
+        .catch(err => console.error(err))
+      commit("CHANGE_STATUS_FINISH", order);
+    },
+    fetchProduct({
+      commit
+    }) {
       axios
         .get("product")
         .then(response => {
@@ -323,12 +264,25 @@ export default new Vuex.Store({
         })
         .catch(err => console.error(err));
     },
-    fetchCategories({ commit }) {
+    fetchCategories({
+      commit
+    }) {
       axios
         .get("category")
         .then(res => {
           let categories = res.data.products;
           commit("SET_CATEGORIES", categories);
+        })
+        .catch(err => console.error(err));
+    },
+    fetchOrders({
+      commit
+    }) {
+      axios
+        .get('order')
+        .then(res => {
+          let order = res.data.products
+          commit('SET_ORDERS', order)
         })
         .catch(err => console.error(err));
     }

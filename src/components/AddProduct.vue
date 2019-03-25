@@ -180,15 +180,13 @@ export default {
       }
       this.$store.dispatch('addProduct', formData);
       this.addStatus = 'SENDING';
-      setTimeout(() => {
-        this.addStatus = 'OK';
-        this.$toast.open({
-          message: ' Продукт добавлен ',
-          duration: 3000,
-          position: 'is-bottom-right',
-          type: 'is-primary'
-        })
-      }, 1500)
+      this.addStatus = 'OK';
+      this.$toast.open({
+        message: ' Продукт добавлен ',
+        duration: 3000,
+        position: 'is-bottom-right',
+        type: 'is-primary'
+      })
     },
   }
 }

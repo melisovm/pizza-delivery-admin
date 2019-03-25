@@ -167,6 +167,7 @@ export default {
         price: this.editedPrice,
         halalStatus: this.editedStatus,
         category: this.editedCategory,
+        id: this.productDetails._id
 
       }
       let editedFormData = new FormData();
