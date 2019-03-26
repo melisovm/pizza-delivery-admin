@@ -151,16 +151,10 @@ export default {
       product_name: '',
       product_description: '',
       product_image: '',
-      product_category: [
-        { text: 'Пиццы', value: 'pizzas' },
-        { text: 'Комбо', value: 'combos' },
-        { text: 'Напитки', value: 'drinks' },
-        { text: 'Дессерты', value: 'desserts' },
-      ],
     }
   },
   components: { VueNumeric },
-  computed: { ...mapGetters(['getPizzas', 'getCombos', 'getProducts', 'getCategories']) },
+  computed: { ...mapGetters(['getCategories']) },
   methods: {
 
     addProduct () {

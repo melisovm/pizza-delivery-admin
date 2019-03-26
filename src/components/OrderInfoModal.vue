@@ -24,7 +24,7 @@
               mobile-cards
               bordered
             >
-              <template scope="props">
+              <template slot-scope="props">
                 <b-table-column
                   field="product_name"
                   label="Имя"

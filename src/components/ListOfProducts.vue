@@ -48,11 +48,12 @@ export default {
   data () {
     return {
       isModalActive: false,
-      item: {}
+      item: {},
     }
   },
   computed: {
-    ...mapState(['defaultUrl'])
+    ...mapState(['defaultUrl']),
+    ...mapGetters(['getCategories'])
   },
 
   methods: {
@@ -60,6 +61,7 @@ export default {
     openModal (payload) {
       this.item = payload;
       this.isModalActive = true;
+
     },
     getImageUrl (ImageName) {
       return this.defaultUrl + '/image/' + ImageName;
@@ -86,7 +88,7 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('fetchCategories')
+
   },
 }
 </script>

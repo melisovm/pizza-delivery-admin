@@ -10,21 +10,7 @@ export default new Vuex.Store({
     defaultUrl: "http://192.168.0.51:4000",
     newProduct: {},
     categories: [],
-    promotions: [{
-        name: "День Рождения",
-        description: "В день вашего рождения дарим Пиццу-пирог 25 см! Акция действует по промокоду D120 один раз.",
-        image: "http://www.metroves.ru/upload/iblock/e71/e7173f9295275c498c4491536ac1a76c.png",
-        id: 1,
-        date: Date.now()
-      },
-      {
-        name: "Доставим вовремя или за наш счет",
-        description: "Мы придерживаемся золотых правил и всегда следим за тем, чтобы наши заказы доставлялись вовремя, а лучше даже раньше обещанного времени.",
-        image: "http://mobile.mypizza.kg:9715/api/ImageFor?id=3115",
-        id: 2,
-        date: Date.now()
-      }
-    ],
+    promotions: [],
     orders: [],
   },
   getters: {
@@ -44,12 +30,6 @@ export default new Vuex.Store({
     getCategories: state => state.categories
   },
   mutations: {
-    ADD_PRODUCT: (state, payload) => {
-      if (payload.halalStatus === -1) {
-        payload.halalStatus === false;
-      }
-      state.products.push(payload);
-    },
     ADD_CATEGORY: (state, payload) => {
       state.categories.push(payload);
     },
@@ -84,7 +64,7 @@ export default new Vuex.Store({
     EDIT_PROMOTION: (state, payload) => {
       let id = payload.id;
       let editablePromotion = state.promotions.find(
-        element => element.id === id
+        element => element._id === id
       );
       editablePromotion.name = payload.name;
       editablePromotion.description = payload.description;
@@ -95,6 +75,9 @@ export default new Vuex.Store({
     },
     SET_CATEGORIES: (state, categories) => {
       state.categories = categories;
+    },
+    SET_PROMOTIONS: (state, promotions) => {
+      state.promotions = promotions;
     },
     DELETE_CATEGORY: (state, payload) => {
       state.categories.splice(state.categories.indexOf(payload), 1);
@@ -120,7 +103,15 @@ export default new Vuex.Store({
     addPromotion({
       commit
     }, payload) {
-      commit("ADD_PROMOTION", payload);
+      axios
+        .post('promotion', payload)
+        .then(res => {
+          console.log("promotionAdd", res.data);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      // commit("ADD_PROMOTION", payload);
     },
     addProduct({
       commit
@@ -141,12 +132,11 @@ export default new Vuex.Store({
       editedProduct,
       editedFormData
     }) {
-      console.log("formData", editedFormData);
       axios
         .put("product", editedFormData)
         .then(res => console.log("edited", res))
         .catch(err => console.error(err.res));
-      commit("EDIT_PRODUCT", editedProduct, editedFormData);
+      commit("EDIT_PRODUCT", editedProduct);
     },
     editCategory({
       commit
@@ -159,8 +149,16 @@ export default new Vuex.Store({
     },
     editPromotion({
       commit
-    }, payload) {
-      commit("EDIT_PROMOTION", payload);
+    }, {
+      editedPromotion,
+      editedFormData
+
+    }) {
+      axios
+        .put("promotion", editedFormData)
+        .then(res => console.log("edited", res))
+        .catch(err => console.error(err.res));
+      commit("EDIT_PROMOTION", editedPromotion);
     },
     addCategory({
       commit
@@ -200,6 +198,13 @@ export default new Vuex.Store({
     deletePromotion({
       commit
     }, payload) {
+      axios
+        .delete('promotion', {
+          data: {
+            id: payload._id
+          }
+        })
+        .catch(err => console.error(err));
       commit("REMOVE_PROMOTION", payload);
     },
     deleteOrder({
@@ -274,6 +279,19 @@ export default new Vuex.Store({
           commit("SET_CATEGORIES", categories);
         })
         .catch(err => console.error(err));
+    },
+    fetchPromotions({
+      commit
+    }) {
+      axios
+        .get('promotion')
+        .then(res => {
+          let promotions = res.data.promotions;
+          commit("SET_PROMOTIONS", promotions)
+        })
+        .catch(err => console.log(err));
+
+
     },
     fetchOrders({
       commit,

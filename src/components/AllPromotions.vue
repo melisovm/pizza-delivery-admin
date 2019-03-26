@@ -16,7 +16,14 @@ export default {
     ListOfPromotions
   },
   computed: {
-    ...mapGetters(['getPromotions'])
+    ...mapGetters(['getPromotions']),
+
+  },
+  methods: {
+
+  },
+  mounted () {
+    this.$store.dispatch('fetchPromotions');
   }
 }
 </script>

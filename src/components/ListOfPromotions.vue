@@ -14,11 +14,14 @@
               style="margin-right:1rem"
             >
               <figure class="image is-64x64">
-                <img :src="promotion.image">
+                <img :src="getImageUrl(promotion.image)">
               </figure>
             </div>
             <div class="navbar-item">
               <p class="subtitle"><b>{{promotion.name}}</b></p>
+            </div>
+            <div class="navbar-item">
+              <p>{{promotion.description}}</p>
             </div>
             <div class="navbar-end navbar-item">
               <button
@@ -44,6 +47,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import PromotionModal from './PromotionModal'
 
 export default {
@@ -54,6 +58,9 @@ export default {
     }
   },
   props: ['promotions'],
+  computed: {
+    ...mapState(['defaultUrl'])
+  },
   components: {
     PromotionModal
   },
@@ -61,6 +68,9 @@ export default {
     openModal (payload) {
       this.data = payload;
       this.isActiveModal = true;
+    },
+    getImageUrl (ImageName) {
+      return this.defaultUrl + '/image/' + ImageName;
     },
     confirmDelete (payload) {
       this.item = payload;

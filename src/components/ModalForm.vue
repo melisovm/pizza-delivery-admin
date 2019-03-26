@@ -30,10 +30,10 @@
                 v-model="editedCategory"
               >
                 <option
-                  v-for="(option,index) in product_category"
+                  v-for="(option,index) in getCategories"
                   :key="index"
-                  :value="option.value"
-                >{{option.text}}</option>
+                  :value="option.code"
+                >{{option.name}}</option>
               </b-select>
 
             </div>
@@ -111,12 +111,6 @@
         <div class="field is-horizontal">
           <div class="field-label"></div>
           <div class="field-body">
-            <figure class="image is-128x128">
-              <img
-                :src="editedImage"
-                alt=""
-              >
-            </figure>
           </div>
         </div>
       </section>
@@ -137,6 +131,7 @@
 
 <script>
 import VueNumeric from 'vue-numeric'
+import { mapGetters } from 'vuex';
 
 export default {
   data () {
@@ -146,21 +141,16 @@ export default {
       editedDescription: this.productDetails.description,
       editedPrice: this.productDetails.price,
       editedStatus: this.productDetails.halalStatus,
-      editedImage: this.productDetails.image,
-      product_category: [
-        { text: 'Пиццы', value: 'pizzas' },
-        { text: 'Комбо', value: 'combos' },
-        { text: 'Напитки', value: 'drinks' },
-        { text: 'Дессерты', value: 'desserts' },
-      ],
     }
   }, components: {
     VueNumeric
   },
+  computed: {
+    ...mapGetters(['getCategories'])
+  },
   props: ['productDetails'],
   methods: {
     saveData () {
-
       const editedProduct = {
         name: this.editedName,
         description: this.editedDescription,
@@ -168,7 +158,6 @@ export default {
         halalStatus: this.editedStatus,
         category: this.editedCategory,
         id: this.productDetails._id
-
       }
       let editedFormData = new FormData();
       let editedFile = this.$refs.editedfile.files[0];
@@ -181,6 +170,9 @@ export default {
       this.$store.dispatch('editProduct', { editedProduct, editedFormData });
     }
   },
+  mounted () {
+    console.log("test", this.categories);
+  }
 }
 </script>
     

@@ -22,7 +22,7 @@ import listOfProducts from './ListOfProducts';
 
 export default {
   computed: {
-    ...mapGetters(['getPizzas', 'getDesserts', 'getDrinks', 'getCombos', 'getProducts'])
+    ...mapGetters(['getPizzas', 'getDesserts', 'getDrinks', 'getCombos', 'getProducts', 'getCategories'])
   },
   components: {
     listOfProducts

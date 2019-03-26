@@ -37,9 +37,10 @@
         </div>
         <div class="field-body">
           <input
-            type="text"
-            class="input is-success sameWidth"
-            v-model="promotion_image"
+            type="file"
+            :required="true"
+            accept="image/*"
+            ref="file"
           >
         </div>
       </div>
@@ -62,7 +63,6 @@ export default {
     return {
       promotion_name: '',
       promotion_description: '',
-      promotion_image: ''
     }
   },
   methods: {
@@ -70,9 +70,15 @@ export default {
       const promotion = {
         name: this.promotion_name,
         description: this.promotion_description,
-        image: this.promotion_image
       }
-      this.$store.dispatch('addPromotion', promotion);
+      console.log(promotion);
+      let formData = new FormData();
+      let file = this.$refs.file.files[0];
+      formData.append('image', file);
+      for (let key in promotion) {
+        formData.append(key, promotion[key])
+      }
+      this.$store.dispatch('addPromotion', formData);
       this.$toast.open({
         message: ' Акция добавлена ',
         duration: 3000,

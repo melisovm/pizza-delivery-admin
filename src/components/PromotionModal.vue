@@ -36,21 +36,14 @@
           </div>
           <div class="field-body">
             <input
-              class="input is-success"
-              type="text"
-              v-model="editedImage"
+              type="file"
+              ref="editedfile"
             >
           </div>
         </div>
         <div class="field is-horizontal">
           <div class="field-label"></div>
           <div class="field-body">
-            <figure class="image is-128x128">
-              <img
-                :src="editedImage"
-                alt=""
-              >
-            </figure>
           </div>
         </div>
       </section>
@@ -74,7 +67,6 @@ export default {
     return {
       editedName: this.promotionDetails.name,
       editedDescription: this.promotionDetails.description,
-      editedImage: this.promotionDetails.image
     }
   },
   props: ['promotionDetails'],
@@ -83,10 +75,15 @@ export default {
       const editedPromotion = {
         name: this.editedName,
         description: this.editedDescription,
-        image: this.editedImage,
-        id: this.promotionDetails.id
+        id: this.promotionDetails._id
       }
-      this.$store.dispatch("editPromotion", editedPromotion);
+      let editedFormData = new FormData();
+      let editedFile = this.$refs.editedfile.files[0];
+      editedFormData.append('image', editedFile);
+      for (let key in editedPromotion) {
+        editedFormData.append(key, editedPromotion[key])
+      }
+      this.$store.dispatch("editPromotion", { editedPromotion, editedFormData });
     }
   }
 }
