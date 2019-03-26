@@ -19,14 +19,7 @@ export default new Vuex.Store({
     getOrdersFinished: state => state.orders.filter(order => order.status === "done"),
     getPromotions: state => state.promotions,
     getProducts: state => state.products,
-    getPizzas: state =>
-      state.products.filter(element => element.category === "pizzas"),
-    getCombos: state =>
-      state.products.filter(element => element.category === "combos"),
-    getDrinks: state =>
-      state.products.filter(element => element.category === "drinks"),
-    getDesserts: state =>
-      state.products.filter(element => element.category === "desserts"),
+    getCategoryProducts: state => category => state.products.filter(item => item.category === category),
     getCategories: state => state.categories
   },
   mutations: {
