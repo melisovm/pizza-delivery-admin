@@ -76,6 +76,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 require("babel-polyfill");
 
-module.exports = {
-  entry: ["babel-polyfill", "./src/store.js"]
-};
+// module.exports = {
+//   entry: ["babel-polyfill", "./src/store.js"]
+// };

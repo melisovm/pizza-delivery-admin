@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     products: [],
-    defaultUrl: "http://192.168.0.51:4000",
+    defaultUrl: "http://devforge.ddns.net:2000",
     newProduct: {},
     categories: [],
     promotions: [],

@@ -67,11 +67,13 @@
           </div>
         </div>
       </section>
+
       <footer class="modal-card-foot">
         <button
-          class="button"
+          class="button is-primary"
           @click="$parent.close()"
-        >Отмена</button>
+        >Выйти</button>
+        <p class="note">Для уточнения заказа позвоните покупателю!</p>
       </footer>
     </div>
   </div>
@@ -97,5 +99,8 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+p.note {
+  font-weight: bold;
+}
 </style>

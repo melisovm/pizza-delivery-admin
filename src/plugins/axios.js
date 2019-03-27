@@ -4,7 +4,7 @@ import Vue from 'vue';
 Vue.use(axios);
 
 const base = axios.create({
-  baseURL: 'http://192.168.0.51:4000'
+  baseURL: 'http://devforge.ddns.net:2000'
 });
 
 Vue.prototype.$http = base;
